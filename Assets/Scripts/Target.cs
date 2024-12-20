@@ -4,9 +4,9 @@ public class Target : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>())
+        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            transform.localScale += collision.gameObject.GetComponent<Enemy>().TargetEnlarger;
+            transform.localScale += enemy.TargetEnlarger;
         }
     }
 }

@@ -7,16 +7,21 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private Color _enemyColor;
     [SerializeField] private float _enemySpeed = 1;
     [SerializeField] private Target _target;
+    [SerializeField] private int _poolDefaultCapacity = 10;
+    [SerializeField] private int _poolMaxSize = 20;
 
-    private ObjectPool<GameObject> _pool;
+    private ObjectPool<Enemy> _pool;
 
     private void Awake()
     {
-        _pool = new ObjectPool<GameObject>(
-        createFunc: () => Instantiate(_enemyPrefab.gameObject, transform.position, Quaternion.identity),
+        _pool = new ObjectPool<Enemy>(
+        createFunc: () => Instantiate(_enemyPrefab, transform.position, Quaternion.identity),
         actionOnGet: (obj) => ActionOnGet(obj),
-        actionOnRelease: (obj) => obj.SetActive(false),
-        actionOnDestroy: (obj) => Destroy(obj));
+        actionOnRelease: (obj) => obj.gameObject.SetActive(false),
+        actionOnDestroy: (obj) => Destroy(obj),
+        collectionCheck: true,
+        defaultCapacity: _poolDefaultCapacity,
+        maxSize: _poolMaxSize);
     }
 
     public void Spawn()
@@ -24,13 +29,13 @@ public class SpawnPoint : MonoBehaviour
         _pool.Get();
     }
 
-    private void ActionOnGet(GameObject obj)
+    private void ActionOnGet(Enemy obj)
     {
-        obj.GetComponent<Renderer>().material.color = _enemyColor;
         obj.transform.position = transform.position;
-        obj.GetComponent<Enemy>().SetSpeed(_enemySpeed);
-        obj.GetComponent<Enemy>().SetTarget(_target);
+        obj.SetSpeed(_enemySpeed);
+        obj.SetTarget(_target);
+        obj.GetComponent<Renderer>().material.color = _enemyColor;
         obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        obj.SetActive(true);
+        obj.gameObject.SetActive(true);
     }
 }

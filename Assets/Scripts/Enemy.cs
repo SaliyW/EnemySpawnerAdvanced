@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     private Target _target;
     private float _speed;
-    private Vector3 _targetEnlarger = new(0.1f, 0.1f, 0.1f);
+    private Vector3 _targetEnlarger = Vector3.one * 0.1f;
 
     public Vector3 TargetEnlarger => _targetEnlarger;
 

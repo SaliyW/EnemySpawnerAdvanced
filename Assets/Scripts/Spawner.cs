@@ -7,16 +7,14 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<SpawnPoint> _spawnPoints;
     [SerializeField] private float _delay;
 
-    private Coroutine _coroutine;
-
     private void Start()
     {
-        _coroutine = StartCoroutine(ActivateRandomSpawnPoint(_delay));
+        StartCoroutine(ActivateRandomSpawnPoint(_delay));
     }
 
     private IEnumerator ActivateRandomSpawnPoint(float delay)
     {
-        WaitForSecondsRealtime wait = new (delay);
+        WaitForSecondsRealtime wait = new(delay);
 
         while (true)
         {
