@@ -34,8 +34,8 @@ public class SpawnPoint : MonoBehaviour
         obj.transform.position = transform.position;
         obj.SetSpeed(_enemySpeed);
         obj.SetTarget(_target);
-        obj.GetComponent<Renderer>().material.color = _enemyColor;
-        obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        obj.SetColor(_enemyColor);
+        obj.SetVelocity(Vector3.zero);
         obj.gameObject.SetActive(true);
     }
 }
